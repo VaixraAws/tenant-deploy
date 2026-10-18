@@ -1,4 +1,3 @@
-cat > tenant-app/app.py <<'FILE_END'
 import os
 from flask import Flask
 from markupsafe import escape
@@ -13,4 +12,3 @@ def home():
 <h1>Welcome {escape(T)}</h1>
 <p>This is <b>{escape(T)}</b>'s own isolated instance.</p>
 </body></html>"""
-FILE_END
