@@ -1,8 +1,4 @@
-cat > backend/requirements.txt <<'FILE_END'
 flask
 boto3
 requests
 gunicorn
-FILE_END
-
-

@@ -1,4 +1,3 @@
-cat > backend/app.py <<'FILE_END'
 import os, re, time, hmac, boto3, requests
 from botocore.exceptions import ClientError
 from flask import Flask, request, jsonify, Response
@@ -212,4 +211,3 @@ async function off() {
 @app.get("/")
 def home():
     return Response(PAGE, mimetype="text/html")
-FILE_END

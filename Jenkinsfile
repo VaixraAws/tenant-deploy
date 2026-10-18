@@ -1,10 +1,14 @@
-cat > Jenkinsfile <<'FILE_END'
 pipeline {
   agent any
   options { timeout(time: 5, unit: 'MINUTES') }
   environment {
     DOMAIN = 'yourdomain.local'
     BASE   = '/opt/tenants'
+  }
+
+  parameters {
+    string(name: 'TENANT', defaultValue: 'demo', description: 'Tenant name: lowercase letters, numbers, hyphens')
+    choice(name: 'ACTION', choices: ['deploy', 'offboard'], description: 'Deploy or offboard tenant')
   }
 
   stages {
@@ -156,4 +160,3 @@ curl -fsS -X POST http://localhost:5000/internal/status -H "X-Token: $CALLBACK_T
     }
   }
 }
-FILE_END
