@@ -1,0 +1,44 @@
+cat > docker-compose.yml <<'FILE_END'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /data
+    user: root
+    volumes: [ddb:/data]
+    networks: [tenantnet]
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports: ["5000:5000"]
+    env_file: /opt/tenants/secrets.env
+    environment:
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      AWS_DEFAULT_REGION: ap-south-1
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+      JENKINS_URL: http://host.docker.internal:8080
+      BASE_DOMAIN: yourdomain.local
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    depends_on: [dynamodb]
+    networks: [tenantnet]
+    restart: unless-stopped
+
+  proxy:
+    image: nginx:alpine
+    container_name: proxy
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /opt/tenants/conf.d:/etc/nginx/tenants.d:ro
+      - /opt/tenants/certs:/certs:ro
+    networks: [tenantnet]
+    restart: unless-stopped
+
+networks:
+  tenantnet:
+    name: tenantnet
+
+volumes:
+  ddb:
+FILE_END
