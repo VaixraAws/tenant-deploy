@@ -1,6 +1,6 @@
 events {}
 http {
-  server { listen 80 default_server; return 301 https://$host$request_uri; }
+  server { listen 80 default_server; return 200 "HTTP is working"; }
   server { listen 443 ssl default_server; ssl_reject_handshake on; }
   include /etc/nginx/tenants.d/*.conf;
 }
