@@ -2,7 +2,7 @@ pipeline {
   agent any
   options { timeout(time: 5, unit: 'MINUTES') }
   environment {
-    DOMAIN = 'yourdomain.local'
+    DOMAIN = '65.1.108.129.nip.io'
     BASE   = '/opt/tenants'
   }
 

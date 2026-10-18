@@ -17,7 +17,7 @@ services:
       AWS_DEFAULT_REGION: ap-south-1
       DYNAMO_ENDPOINT: http://dynamodb:8000
       JENKINS_URL: http://host.docker.internal:8080
-      BASE_DOMAIN: yourdomain.local
+      BASE_DOMAIN: 65.1.108.129.nip.io
     extra_hosts: ["host.docker.internal:host-gateway"]
     depends_on: [dynamodb]
     networks: [tenantnet]

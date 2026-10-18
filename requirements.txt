@@ -1,0 +1,6 @@
+cat > backend/requirements.txt
+flask
+boto3
+requests
+gunicorn
+

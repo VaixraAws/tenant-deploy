@@ -73,8 +73,12 @@ def transition(n, new, expected=None):
 
 def start(n, action, msg):
     try:
-        r = requests.post(f"{JURL}/job/tenant-deploy/buildWithParameters",
-                          params={"TENANT": n, "ACTION": action}, auth=JAUTH, timeout=10)
+        sess = requests.Session()
+        sess.auth = JAUTH
+        c = sess.get(f"{JURL}/crumbIssuer/api/json", timeout=5).json()
+        r = sess.post(f"{JURL}/job/tenant-deploy/buildWithParameters",
+                      params={"TENANT": n, "ACTION": action},
+                      headers={c["crumbRequestField"]: c["crumb"]}, timeout=10)
         r.raise_for_status()
         return jsonify(tenant=n, message=msg), 202
     except Exception as e:
