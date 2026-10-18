@@ -193,6 +193,7 @@ async function go(path) {
     const s = await api('GET', '/api/tenants/' + encodeURIComponent(name()));
     if (s.j.status === 'ACTIVE') {
       show('&#9989; Ready! Opening <a href="' + s.j.url + '">' + s.j.url + '</a> ...');
+      if (path === '/api/signup') { show('&#9989; Signup complete. Your environment is ready. Now enter your name and click <b>Login</b>.'); return; }
       setTimeout(() => location.href = s.j.url, 2000); return;
     }
     if (s.j.status === 'FAILED') { show('&#10060; Deployment failed. Check Jenkins.'); return; }
